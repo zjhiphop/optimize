@@ -1,0 +1,120 @@
+#!/usr/bin/env node
+// --- SETTINGS ---
+var DIST_PATH = 'dist/awsum.js';
+
+// --- SETUP ---
+var _cli = require('commander'),
+    _fs = require('fs'),
+    optimize=require("./bin/optimize"),
+    exec=require('child_process').exec,
+    _util=require("./bin/utils").util,
+    path=require("path"),
+    VERSION=require("./bin/config").version;
+    
+_cli
+  .version(VERSION)
+  .option('-w, --watch', 'start watch file')
+  .option('-m, --minify [css|js]', 'minify css or js,default is js')
+  .option('-t, --type  [css|js]', 'css or js,default is js')
+  .option('-l, --lint  [css|js]', 'check js or css error,default is js')
+  .option('-f, --filelist [filelist]', 'js or css file list string split with ",",default is  js files list in current dir and subdir')
+  .option('-co, --cssout [filename]', 'css output file name')
+  .option('-jo, --jsout [filename]', 'js output file name')
+  .option('-o, --concatout [filename]', 'concat file name')
+  .option('--silent', 'suppress log messages.')
+    
+// global options
+_cli
+    .option('--silent', 'suppress log messages.');
+
+// commands
+_cli
+    .command('watch')
+    .description('watch files change.')
+    .action(watch);
+    
+_cli
+    .command('concat')
+    .description('Concat files.')
+    .action(concat);
+    
+_cli
+    .command('minify')
+    .description('minify files.')
+    .action(minify);
+
+_cli
+    .command('lint')
+    .description('lint files.')
+    .action(lint);
+   
+_cli
+    .command('deploy')
+    .description('Optimize site for deploy.')
+    .action(deploy);
+ 
+_cli
+    .command('purge')
+    .description('Delete old files from dist folder.')
+    .action(purgeDeploy);
+// parse commands
+_cli.parse(process.argv);
+
+if(process.argv.length<3){
+  exec("optimize -h");
+  console.log("Please use optimize -h to get help!");
+}
+
+var  con=_cli.concats,min=_cli.minify,type=_cli.type,lint=_cli.lint,
+ filelist=_cli.filelist,out=_cli.out;
+
+function mapFilelist(outFileName){
+  var dir=path.dirname(outFileName),files=_cli.filelist;
+  if(files){
+    return ((dir||".")+"/"+files).split(/[,|\s]/ig).join(','+(dir||".")+'/').split(",");
+  } else{
+    return;
+  }
+}
+ 
+function watch(){
+    optimize.watch();
+}
+
+function concat(){
+    var filelist,type=_cli.type,out=_cli.concatout;
+    var filelist=mapFilelist(out);
+    optimize.concat(filelist,out,"."+type);
+}
+function minify(){
+    var type=_cli.type&&~["css","js"].indexOf(_cli.type)?_cli.type:"js",out=_cli[type+"out"];
+    var filelist=mapFilelist(out);
+    optimize["minify"+type.toUpperCase()](filelist,_cli[type+"out"]);
+}
+
+function lint(){
+    var type=_cli.type&&~["css","js"].indexOf(_cli.type)?_cli.type:"js",
+        files=_cli.filelist,out=_cli[type+"out"];
+    var filelist=mapFilelist(out);
+    optimize[type+"Lint"](filelist);
+}
+
+function deploy() {
+    purgeDeploy();
+    build();
+}
+
+function purgeDeploy(){
+    _fs.unlinkSync(DIST_PATH);
+    if (! _cli.silent) {
+        console.log(' Deleted deploy files!');
+    }
+}
+
+function build(){
+    // concat files here or do anything that generates the dist files
+    if (! _cli.silent) {
+        console.log(' Built!');
+    }
+}
+
