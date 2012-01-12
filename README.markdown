@@ -1,6 +1,6 @@
 #A tool used to relax your css&js merge&minify.  
 ###use:
-###    npm install -g optimize
+    npm install -g optimize
 ###to install it in your computer.  
 
 ## It has the fllowing features:
