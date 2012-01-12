@@ -49,7 +49,7 @@ _cli
     .action(lint);
    
 _cli
-    .command('deploy')
+    .command('deploy') 
     .description('Optimize site for deploy.')
     .action(deploy);
  

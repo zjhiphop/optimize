@@ -7,7 +7,7 @@ var
   _fs=require("fs"),
   jsp = uglyfyJS.parser,
   pro = uglyfyJS.uglify,
-  jshint = require('lib/linter').lint,
+  jshint = require('../lib/linter').lint,
   csslint= require("csslint").CSSLint,
   exec=require('child_process').exec,
   _=require("underscore"),
@@ -25,7 +25,7 @@ var optimize = {
       });
       _fs.writeFileSync(distPath, out.join(EOL), FILE_ENCODING);
       console.log(' ' + distPath + ' built.');
-    },
+    }, 
     minifyCSS : function(fileList, distPath, config) {
         fileList=fileList||_util.getAllFileNamesByExt(".",".css");
         distPath=distPath||"all_css_minfied.css";

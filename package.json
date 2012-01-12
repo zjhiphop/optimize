@@ -1,16 +1,11 @@
-/**@license
- * {{name}} <{{homepage}}>
- * Version: {{version}} ({{build_date}})
- * License: {{#license licenses}}
- */
 {
     "name": "optimize",
-    "version": "0.0.1",
+    "version": "0.1.3",
     "description": "optimize",
     "author": "Jade.Zhang",
     "os": ["Windows", "Mac","Ubuntu"],
     "contributors": [
-        "Jade.Zhang"
+        "Jade.Zhang" 
     ],
     "engines": {
         "node" : ">=0.6.6"
@@ -23,15 +18,15 @@
                       "uglify-js":"",
                       "async":"",
                       "underscore": "~1.2.4",
-                      "jslint":""
+                      "jslint":"",
                       "csslint":""
                     },
     "directories": {
         "lib" : "lib"
     },
-    "main": "./bin/optimize.js",
+    "main": "bin/optimize.js",
     "bin": {
-        "optimize": "./cli.js"
+        "optimize": "cli"
     },
     "licenses":[
         {
