@@ -32,8 +32,8 @@ var optimize = {
         var result = uglifyCSS.processFiles(fileList, config);
         _fs.writeFileSync(distPath, result, FILE_ENCODING);
         console.log(fileList + " is built to " + distPath);
-    },
-    minifyJS : function(fileList, distPath) {
+    }, 
+    minifyJS : function(fileList, distPath,outdir) {
         fileList=fileList||_util.getAllFileNamesByExt(".",".js");
         distPath=distPath||"all_js_minified.js";
         var ast, result="",content,error="";
@@ -48,11 +48,11 @@ var optimize = {
             }
             result += pro.gen_code(ast)
         });
-        _fs.writeFileSync("js_error.log", error, FILE_ENCODING);
+        _fs.writeFileSync(outdir+"js_error.log", error, FILE_ENCODING);
         _fs.writeFileSync(distPath, result, FILE_ENCODING);
         console.log(' ' + distPath + ' built.');
     },
-    cssLint : function(fileList) {
+    cssLint : function(fileList,outdir) {
         if(!fileList) {
             exec("csslint --format=text . > " + CSS_LINT_FILE);
         }
@@ -66,11 +66,11 @@ var optimize = {
                 }
                 out += (len == 0 ? "No error " : "") + "\nat file " + file + "\n\n";
             });
-            _fs.writeFileSync(CSS_LINT_FILE, out, FILE_ENCODING);
+            _fs.writeFileSync(outdir+CSS_LINT_FILE, out, FILE_ENCODING);
         }
-        console.log("please see css lint result at file " + CSS_LINT_FILE);
+        console.log("please see css lint result at file " + outdir+CSS_LINT_FILE);
     },
-    jsLint : function(fileList) {
+    jsLint : function(fileList,outdir) {
         if(!fileList) {
           var files=_util.getAllFileNamesByExt(".",'.js').join(" ");
           exec("jslint "+files+" > "+JS_LINT_FILE);
@@ -98,9 +98,9 @@ var optimize = {
                 }
                 out += "\nat file " + file + "\n\n";
             });
-            _fs.writeFileSync(JS_LINT_FILE, out, FILE_ENCODING);
+            _fs.writeFileSync(outdir+JS_LINT_FILE, out, FILE_ENCODING);
         }  
-        console.log("please see js lint result at file " + CSS_LINT_FILE);
+        console.log("please see js lint result at file " + outdir+CSS_LINT_FILE);
     },
     watch:function(dir,callback){
        _fs.watch(dir, function (event, filename) {

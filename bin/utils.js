@@ -1,15 +1,19 @@
 
 var fs=require("fs"),
     path=require("path"),
-    _=require("underscore");
-function iterator(url,fileList,extname){
-   var stat=fs.statSync(url),
+    _=require("underscore")
+    _dir=false;
+function iterator(url,list,extname){
+   var stat=fs.statSync(url), 
       _check=extname?(path.extname(url)===extname):true;
    if(stat.isDirectory()){
-     inner(url,fileList,extname);
-   }else if(stat.isFile()&&_check&&!/\.min\./.test(url)){
-     fileList.push(url);
-   }
+     if(!/\.git$/g.test(url)&&_dir){ 
+       list.push(url); 
+     }  
+     inner(url,list,extname);
+   }else if(!_dir&&stat.isFile()&&_check&&!/\.min\./.test(url)){
+     list.push(url);
+   } 
 }
 function inner(url,fileList,ext){
   var arr = fs.readdirSync(url);
@@ -31,6 +35,13 @@ util={
      var fileList=[];
      iterator(dir,fileList);
      return fileList;
-  }
+  },
+  getAllDirectory:function(dir){
+     var dirList=[];
+     _dir=true;
+     iterator(dir,dirList);
+     _dir=false;
+     return dirList;
+  }  
 }
 exports.util=util;

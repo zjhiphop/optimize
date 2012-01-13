@@ -1,0 +1,24 @@
+{
+  "dir":".",
+  "out":"build/",
+  "files":{
+     "js":[],
+     "css":[]
+  },
+  "lint":{
+     "js":true,
+     "css":true
+  },
+  "minify":{
+     "css":true,
+     "js":true
+  },
+  "concat":{ 
+     "css":true,
+     "js":true
+  },
+  "watch":{
+     "minify":true,
+     "lint":false
+  }
+}

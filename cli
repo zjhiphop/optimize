@@ -18,10 +18,10 @@ _cli
   .option('-t, --type  [css|js]', 'css or js,default is js')
   .option('-l, --lint  [css|js]', 'check js or css error,default is js')
   .option('-f, --filelist [filelist]', 'js or css file list string split with ",",default is  js files list in current dir and subdir')
-  .option('-co, --cssout [filename]', 'css output file name')
-  .option('-jo, --jsout [filename]', 'js output file name')
+  .option('-c, --cssout [filename]', 'css output file name')
+  .option('-j, --jsout [filename]', 'js output file name')
   .option('-o, --concatout [filename]', 'concat file name')
-  .option('--silent', 'suppress log messages.')
+  .option('-g, --config [filename]', 'build all with config file')
     
 // global options
 _cli
@@ -32,6 +32,11 @@ _cli
     .command('watch')
     .description('watch files change.')
     .action(watch);
+
+_cli
+    .command('build')
+    .description('build with config file')
+    .action(build);
     
 _cli
     .command('concat')
@@ -65,8 +70,92 @@ if(process.argv.length<3){
   console.log("Please use optimize -h to get help!");
 }
 
+function build(){
+  var config=_cli.config||"config.json";
+  path.exists(config,function(exists){
+    if(!exists){
+      console.log("Config file is not found,default config file is config.json!");
+      return;  
+    }else{
+      var _args=JSON.parse(_fs.readFileSync(config));
+      _args.out=(_args.out||".");
+      //lint js & css
+      if(_args.lint.js){
+        optimize.jsLint(_args.files.js,fixPath(_args.out));  
+      }
+      if(_args.lint.css){
+        optimize.cssLint(_args.files.css,fixPath(_args.out));
+      }      
+      //concat css & js
+      if(_args.concat.js){
+        optimize.concat(_args.files.js,fixPath(_args.out)+"concat.js",".js");
+      }
+      if(_args.concat.css){
+        optimize.concat(_args.files.css,fixPath(_args.out)+"concat.css",".css");
+      }
+      //minify js & css
+      
+      if(_args.minify.css){
+        optimize.minifyCSS(_args.files.css,fixPath(_args.out)+"minify.css");
+      }
+      if(_args.minify.js){
+        optimize.minifyJS(_args.files.js,fixPath(_args.out)+"minify.js",fixPath(_args.out));
+      }
+      // concat files here or do anything that generates the dist files
+      if (! _cli.silent) {
+          console.log(' Built!');
+      }
+    }    
+  });  
+} 
+
+function watch(){
+    var config=_cli.config||"config.json";
+    path.exists(config,function(exists){
+      if(exists){
+        var _args=JSON.parse(_fs.readFileSync(config));
+        _fs.readdir(_args.out,function(err,files){
+          if(err){ 
+            _fs.mkdirSync(_args.out);
+          }
+          var dir=_util.getAllDirectory(_cli.dir||"."); 
+          dir.forEach(function(d){
+            if(~d.indexOf(_args.out.replace("/",""))) return ;
+            optimize.watch(d,function(filename){
+               _fs.readdir(_args.out,function(err,files){
+                  if(err){ 
+                    _fs.mkdirSync(_args.out);
+                  }
+                  if(!/\.min/g.test(filename)) 
+                  {
+                    if(_args.minify.css&&/\.css/g.test(filename)){
+                      optimize.minifyCSS(_args.files.css,fixPath(_args.out)+"minify.css");
+                    }
+                    if(_args.minify.js&&/\.js/g.test(filename)){
+                      optimize.minifyJS(_args.files.js,fixPath(_args.out)+"minify.js",fixPath(_args.out));
+                    }
+                  }
+              });
+            });  
+          })
+          
+        });    
+      }else{
+        console.warn("NO config.json!It will only watch files change status!");
+        var dir=_util.getAllDirectory(".");
+        dir.forEach(function(d){
+          optimize.watch(d);
+        })
+      }
+    });
+}
+
 var  con=_cli.concats,min=_cli.minify,type=_cli.type,lint=_cli.lint,
  filelist=_cli.filelist,out=_cli.out;
+
+function fixPath(path){
+  return /\/$/g.test(path)?path:path+"/";
+}
 
 function mapFilelist(outFileName){
   var dir=path.dirname(outFileName),files=_cli.filelist;
@@ -75,10 +164,6 @@ function mapFilelist(outFileName){
   } else{
     return;
   }
-}
- 
-function watch(){
-    optimize.watch();
 }
 
 function concat(){
@@ -108,13 +193,6 @@ function purgeDeploy(){
     _fs.unlinkSync(DIST_PATH);
     if (! _cli.silent) {
         console.log(' Deleted deploy files!');
-    }
-}
-
-function build(){
-    // concat files here or do anything that generates the dist files
-    if (! _cli.silent) {
-        console.log(' Built!');
     }
 }
 

@@ -1,1 +1,1 @@
-module.exports = require('./bin/optimize.js');
+module.exports = require('./bin/optimize.js');      
