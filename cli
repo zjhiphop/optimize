@@ -79,32 +79,41 @@ function build(){
     }else{
       var _args=JSON.parse(_fs.readFileSync(config));
       _args.out=(_args.out||".");
-      //lint js & css
-      if(_args.lint.js){
-        optimize.jsLint(_args.files.js,fixPath(_args.out));  
-      }
-      if(_args.lint.css){
-        optimize.cssLint(_args.files.css,fixPath(_args.out));
-      }      
-      //concat css & js
-      if(_args.concat.js){
-        optimize.concat(_args.files.js,fixPath(_args.out)+"concat.js",".js");
-      }
-      if(_args.concat.css){
-        optimize.concat(_args.files.css,fixPath(_args.out)+"concat.css",".css");
-      }
-      //minify js & css
-      
-      if(_args.minify.css){
-        optimize.minifyCSS(_args.files.css,fixPath(_args.out)+"minify.css");
-      }
-      if(_args.minify.js){
-        optimize.minifyJS(_args.files.js,fixPath(_args.out)+"minify.js",fixPath(_args.out));
-      }
-      // concat files here or do anything that generates the dist files
-      if (! _cli.silent) {
-          console.log(' Built!');
-      }
+	  path.exists(_args.out,function(exists){
+	     if(!exists){
+		   _fs.mkdirSync(_args.out);
+		 }
+		 try{
+		 //lint js & css
+		  if(_args.lint.js){
+			optimize.jsLint(_args.files.js,fixPath(_args.out));  
+		  }
+		  if(_args.lint.css){
+			optimize.cssLint(_args.files.css,fixPath(_args.out));
+		  }      
+		  //concat css & js
+		  if(_args.concat.js){
+			optimize.concat(_args.files.js,fixPath(_args.out)+"concat.js",".js",_args);
+		  }
+		  if(_args.concat.css){
+			optimize.concat(_args.files.css,fixPath(_args.out)+"concat.css",".css",_args);
+		  }
+		  //minify js & css
+		  
+		  if(_args.minify.css){
+			optimize.minifyCSS(_args.files.css,fixPath(_args.out)+"minify.css",null,_args);
+		  }
+		  if(_args.minify.js){
+			optimize.minifyJS(_args.files.js,fixPath(_args.out)+"minify.js",fixPath(_args.out),_args);
+		  }
+		  // concat files here or do anything that generates the dist files
+		  if (! _cli.silent) {
+			  console.log(' Built!');
+		  } 
+		}catch(e){
+		  console.log(e);
+		}		
+	  });
     }    
   });  
 } 
@@ -169,19 +178,31 @@ function mapFilelist(outFileName){
 function concat(){
     var filelist,type=_cli.type,out=_cli.concatout;
     var filelist=mapFilelist(out);
-    optimize.concat(filelist,out,"."+type);
+    try{
+		optimize.concat(filelist,out,"."+type);
+	}catch(e){
+	    console.log(e);
+	}
 }
 function minify(){
     var type=_cli.type&&~["css","js"].indexOf(_cli.type)?_cli.type:"js",out=_cli[type+"out"];
     var filelist=mapFilelist(out);
-    optimize["minify"+type.toUpperCase()](filelist,_cli[type+"out"]);
+	try{
+		optimize["minify"+type.toUpperCase()](filelist,_cli[type+"out"]);
+	}catch(e){
+	    console.log(e);
+	}
 }
 
 function lint(){
     var type=_cli.type&&~["css","js"].indexOf(_cli.type)?_cli.type:"js",
         files=_cli.filelist,out=_cli[type+"out"];
     var filelist=mapFilelist(out);
-    optimize[type+"Lint"](filelist);
+	try{
+		optimize[type+"Lint"](filelist);
+	}catch(e){
+	    console.log(e);
+	}
 }
 
 function deploy() {

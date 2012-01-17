@@ -3,7 +3,7 @@
   "out":"build/",
   "files":{
      "js":[],
-     "css":[]
+     "css":["testcss/output.css"]
   },
   "lint":{
      "js":true,
@@ -20,5 +20,6 @@
   "watch":{
      "minify":true,
      "lint":false
-  }
+  },
+  "flatCSS":true
 }

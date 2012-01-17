@@ -42,4 +42,7 @@
 ##  TODO:  
 1.  auto merge @import css files.   
 2.  auto task  deploy   
-    
+
+@update:  
+V 0.1.6  
+1.add @import css consist,but only configed in config.json  

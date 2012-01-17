@@ -1,0 +1,80 @@
+/* ANIMATION LINE */
+@-moz-keyframes move {
+	0%   { width:0px;}
+	100% { width:300px; box-shadow:0px 0px 5px 1px rgba(0,198,255,0.5); }
+}
+
+@-moz-keyframes move1 {
+	0%   { width:0px;}
+	100% { width:360px; box-shadow:0px 0px 5px 1px rgba(0,198,255,0.5); }
+}
+
+@-moz-keyframes move2 {
+	0%   { width:0px;}
+	100% { width:205px; box-shadow:0px 0px 5px 1px rgba(0,198,255,0.5); }
+}
+
+@-moz-keyframes move3 {
+	0%   { width:0px;}
+	100% { width:370px; box-shadow:0px 0px 5px 1px rgba(0,198,255,0.5); }
+}
+
+@-webkit-keyframes move {
+	0%   { width:0px;}
+	100% { width:300px; box-shadow:0px 0px 5px 1px rgba(0,198,255,0.5); }
+}
+
+@-webkit-keyframes move1 {
+	0%   { width:0px;}
+	100% { width:360px; box-shadow:0px 0px 5px 1px rgba(0,198,255,0.5); }
+}
+
+@-webkit-keyframes move2 {
+	0%   { width:0px;}
+	100% { width:205px; box-shadow:0px 0px 5px 1px rgba(0,198,255,0.5); }
+}
+
+@-webkit-keyframes move3 {
+	0%   { width:0px;}
+	100% { width:370px; box-shadow:0px 0px 5px 1px rgba(0,198,255,0.5); }
+}
+
+/* ANIMATION BALL + SPECIAL FX */
+@-moz-keyframes point {
+	0%  {-moz-transform:scale(0,0);}
+	100%{-moz-transform:scale(1,1);}	
+}
+
+@-moz-keyframes pulse {
+	0%   {-moz-transform: scale(0);opacity: 0;}
+        10%  {-moz-transform: scale(1);opacity: 0.5;}
+	50%  {-moz-transform: scale(1.75);opacity: 0;}
+        100% {-moz-transform: scale(0);opacity: 0;}  
+} 
+
+@-webkit-keyframes point {
+	0%  {-webkit-transform:scale(0,0);}
+	100%{-webkit-transform:scale(1,1);}	
+}
+
+@-webkit-keyframes pulse {
+	0%   {-webkit-transform: scale(0);opacity: 0;}
+        10%  {-webkit-transform: scale(1);opacity: 0.5;}
+	50%  {-webkit-transform: scale(1.75);opacity: 0;}
+        100% {-webkit-transform: scale(0);opacity: 0;}  
+} 
+
+/* ANIMATION LABEL */
+@-moz-keyframes tooltip {
+	0%  { -moz-transform:scale(0,0); opacity:0;}
+	50% { -moz-transform:scale(1.2,1.2); opacity:0.3; }
+	75% { -moz-transform:scale(0.9,0.9); opacity:0.7;}
+	100%{ -moz-transform:scale(1,1); opacity:1;}
+}
+
+@-webkit-keyframes tooltip {
+	0%  { -webkit-transform:scale(0,0); opacity:0;}
+	50% { -webkit-transform:scale(1.2,1.2); opacity:0.3; }
+	75% { -webkit-transform:scale(0.9,0.9); opacity:0.7;}
+	100%{ -webkit-transform:scale(1,1); opacity:1;}
+}
