@@ -9,7 +9,8 @@ var _cli = require('commander'),
     exec=require('child_process').exec,
     _util=require("./bin/utils").util,
     path=require("path"),
-    VERSION=require("./bin/config").version;
+    VERSION=require("./bin/config").version,
+    _trace=require("./bin/trace");
     
 _cli
   .version(VERSION)
@@ -22,6 +23,7 @@ _cli
   .option('-j, --jsout [filename]', 'js output file name')
   .option('-o, --concatout [filename]', 'concat file name')
   .option('-g, --config [filename]', 'build all with config file')
+  .option('-n, --tracename [filename]', 'trace file name')
     
 // global options
 _cli
@@ -62,6 +64,12 @@ _cli
     .command('purge')
     .description('Delete old files from dist folder.')
     .action(purgeDeploy);
+
+_cli
+    .command('trace')
+    .description('build trace files.')
+    .action(trace);
+    
 // parse commands
 _cli.parse(process.argv);
 
@@ -157,6 +165,15 @@ function watch(){
         })
       }
     });
+}
+
+
+function trace(){
+  if(!_cli.tracename){
+    console.log("Please use -n to set name to trace!");
+    return;
+  }
+  _trace(_cli.tracename);
 }
 
 var  con=_cli.concats,min=_cli.minify,type=_cli.type,lint=_cli.lint,

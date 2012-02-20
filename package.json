@@ -19,7 +19,8 @@
                       "async":"",
                       "underscore": "~1.2.4",
                       "jslint":"",
-                      "csslint":""
+                      "csslint":"",
+                      "esprima":""
                     },
     "directories": {
         "lib" : "lib"
