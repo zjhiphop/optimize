@@ -80,14 +80,14 @@ if(process.argv.length<3){
 
 function build(){
   var config=_cli.config||"config.json";
-  path.exists(config,function(exists){
+  fs.exists(config,function(exists){
     if(!exists){
       console.log("Config file is not found,default config file is config.json!");
       return;  
     }else{
       var _args=JSON.parse(_fs.readFileSync(config));
       _args.out=(_args.out||".");
-	  path.exists(_args.out,function(exists){
+	  fs.exists(_args.out,function(exists){
 	     if(!exists){
 		   _fs.mkdirSync(_args.out);
 		 }
@@ -128,7 +128,7 @@ function build(){
 
 function watch(){
     var config=_cli.config||"config.json";
-    path.exists(config,function(exists){
+    fs.exists(config,function(exists){
       if(exists){
         var _args=JSON.parse(_fs.readFileSync(config));
         _fs.readdir(_args.out,function(err,files){
