@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Optimize : This is a tool which is used to merge&amp;compress js/css files" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Optimize</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/zjhiphop/optimize">View on GitHub</a>
+
+          <h1 id="project_title">Optimize</h1>
+          <h2 id="project_tagline">This is a tool which is used to merge&amp;compress js/css files</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/zjhiphop/optimize/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/zjhiphop/optimize/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>A tool used to relax your css&amp;js merge&amp;minify.</h1>
+
+<h3>use:</h3>
+
+<pre><code>npm install -g optimize
+</code></pre>
+
+<h3>to install it in your computer.</h3>
+
+<h2>It has the fllowing features:</h2>
+
+<ol>
+<li> merge all css and js files from base dir<br>
+</li>
+<li> use jshint to detect errors and potential problems with the js code<br>
+</li>
+<li> use jshint to detect errors and potential problems with the js code<br>
+</li>
+<li> use csshint to help point out problems with the CSS code<br>
+</li>
+<li>
+<p>build with a config json file.  </p>
+
+<p>eg:
+{<br>
+  "dir":".",<br>
+  "out":"build/",<br>
+  "files":{<br>
+     "js":[],<br>
+     "css":[]<br>
+  },<br>
+  "lint":{<br>
+     "js":true,<br>
+     "css":true<br>
+  },<br>
+  "minify":{<br>
+     "css":true,<br>
+     "js":true<br>
+  },<br>
+  "concat":{<br>
+     "css":true,<br>
+     "js":true<br>
+  },<br>
+  "watch":{<br>
+     "minify":true,<br>
+     "lint":false<br>
+  }<br>
+}  </p>
+</li>
+</ol><h2>example:</h2>
+
+<pre><code>optimize watch //this will watch all project,and build while files changed
+</code></pre>
+
+<h2>TODO:</h2>
+
+<ol>
+<li> auto merge <a href="https://github.com/import" class="user-mention">@import</a> css files.<br>
+</li>
+<li> auto task  deploy<br>
+</li>
+</ol><p><a href="https://github.com/update" class="user-mention">@update</a>:<br>
+V 0.1.6<br>
+1.add <a href="https://github.com/import" class="user-mention">@import</a> css consist,but only configed in config.json  </p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Optimize maintained by <a href="https://github.com/zjhiphop">zjhiphop</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
