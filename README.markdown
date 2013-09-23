@@ -46,3 +46,7 @@
 @update:  
 V 0.1.6  
 1.add @import css consist,but only configed in config.json  
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/zjhiphop/optimize/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
